@@ -97,9 +97,7 @@ void put_word(string &word, string &secret) {
 }
 
 void display(vec<string> &guesses, string &secret) {
-    if (!system("clear||cls"))
-        ;
-    std::cout << "\twordle$ (lowercase)\n"
+    std::cout << "\x1B[2J\x1B[1;1H\twordle$ (lowercase)\n"
         << YEL << " " << RES << " - right letter, wrong place\n"
         << GRN << " " << RES << " - right letter, right place\n"
         << std::endl
