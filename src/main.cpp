@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,22 +8,20 @@
 
 #define GRN "\x1B[42m"
 #define YEL "\x1B[43m"
-#define RES "\x1B[0m"
+#define RESET "\x1B[0m"
 
 #define GUESSES 6
 #define LETTERS 5
 
-
-template<class T>
-using vec = std::vector<T>;
 using std::string;
+using std::vector;
 
 int random(int max) {
     srand((unsigned) time(0));
     return rand() % max;
 }
 
-bool put_words_in(vec<string> &list, int &counter) {
+bool put_words_in(vector<string> &list, int &counter) {
     std::ifstream words;
     words.open("/usr/share/dict/words.sorted");
     string buf;
@@ -46,7 +43,7 @@ bool put_words_in(vec<string> &list, int &counter) {
     return true;
 }
 
-bool has_word (vec<string> &words, string &word) {
+bool has_word (vector<string> &words, string &word) {
     int beg = 0;
     int end = words.size() - 1;
     int mid, diff;
@@ -73,11 +70,10 @@ bool has_word (vec<string> &words, string &word) {
 void put_word(string &word, string &secret) {
     string copy { secret };
     string space;
-    std::ostringstream buf;
     char c;
     size_t pos;
 
-    buf << "\t";
+    std::cout << '\t';
     for (int i = 0; i < word.length(); i++) {
         space = " ";
         c = word[i];
@@ -89,17 +85,17 @@ void put_word(string &word, string &secret) {
                 ;
             copy[static_cast<int>(pos)] = '.';
         }
-        buf << space << word[i] << RES;
+        std::cout << space << c << RESET;
     }
 
-    std::cout << buf.str() << std::endl;
+    std::cout << std::endl;
     return;
 }
 
-void display(vec<string> &guesses, string &secret) {
+void display(vector<string> &guesses, string &secret) {
     std::cout << "\x1B[2J\x1B[1;1H\twordle$ (lowercase)\n"
-        << YEL << " " << RES << " - right letter, wrong place\n"
-        << GRN << " " << RES << " - right letter, right place\n"
+        << YEL << " " << RESET << " - right letter, wrong place\n"
+        << GRN << " " << RESET << " - right letter, right place\n"
         << std::endl
         ;
     for (int i = 0; i < guesses.size(); i++)
@@ -116,8 +112,8 @@ void display(vec<string> &guesses, string &secret) {
     return;
 }
 
-void parse_guess(string &guess, vec<string> &guesses,
-        vec<string> &words, string &secret,
+void parse_guess(string &guess, vector<string> &guesses,
+        vector<string> &words, string &secret,
         bool &rotate, bool &won) {
     if (!has_word(words, guess)) {
         std::cout << "Not a valid word!" << std::endl;
@@ -133,13 +129,13 @@ void parse_guess(string &guess, vec<string> &guesses,
 }
 
 int main(void) {
-    vec<string> words;
+    vector<string> words;
     int ct;
     if (!put_words_in(words, ct))
         return 1;
     string secret = words[random(ct)];
 
-    vec<string> guesses;
+    vector<string> guesses;
 
     bool won = false;
     bool rotate = true;
@@ -160,7 +156,7 @@ int main(void) {
 
     std::cout << std::endl;
     if (won)
-        std::cout << "You won!";
+        std::cout << "You won!" << std::endl;
     else
         std::cout << "You lost! The word was: "
             << secret << std::endl
