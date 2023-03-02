@@ -17,15 +17,13 @@ using std::string;
 using std::vector;
 
 int random(int max) {
-    srand((unsigned) time(0));
     return rand() % max;
 }
 
-bool put_words_in(vector<string> &list, int &counter) {
+bool put_words_in(vector<string> &list) {
     std::ifstream words;
     words.open("/usr/share/dict/words.sorted");
     string buf;
-    counter = 0;
 
     if (!words.is_open()) {
         std::cerr << "Cannot open file" << std::endl;
@@ -37,7 +35,6 @@ bool put_words_in(vector<string> &list, int &counter) {
         if (words.eof()) break;
         if (buf.length() == LETTERS) {
             list.push_back(buf);
-            counter++;
         }
     }
     return true;
@@ -130,16 +127,17 @@ void parse_guess(string &guess, vector<string> &guesses,
 
 int main(void) {
     vector<string> words;
-    int ct;
-    if (!put_words_in(words, ct))
+    if (!put_words_in(words))
         return 1;
-    string secret = words[random(ct)];
+    string secret = words[random(words.size())];
 
     vector<string> guesses;
 
     bool won = false;
     bool rotate = true;
     string guess;
+    srand((unsigned) time(0));
+
     while (!won && guesses.size() < GUESSES) {
         if (rotate)
             display(guesses, secret);
