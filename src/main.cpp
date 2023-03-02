@@ -114,8 +114,6 @@ void parse_guess(string &guess, vector<string> &guesses,
         bool &rotate, bool &won) {
     if (!has_word(words, guess)) {
         std::cout << "Not a valid word!" << std::endl;
-        if (system("sleep 1"))
-            ;
         rotate = false;
         return;
     }
