@@ -4,7 +4,7 @@
 
     *Installation:*
 Just run 'sudo make install' to install. The makefile takes care of the rest.
-To uninstall, run 'sudo make uninstall'. If you want to completely purge it, just rm -rf the directory you cloned this into.
+To uninstall, run 'sudo make uninstall'. If you want to completely purge it, just rm -rf the directory you cloned this into afterwards.
 
     *Usage*
 This program takes no commandline arguments. Just type 'wordle' into your shell once it is installed
