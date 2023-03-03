@@ -127,6 +127,7 @@ int main(void) {
     vector<string> words;
     if (!put_words_in(words))
         return 1;
+    srand((unsigned) time(0));
     string secret = words[random(words.size())];
 
     vector<string> guesses;
@@ -134,7 +135,6 @@ int main(void) {
     bool won = false;
     bool rotate = true;
     string guess;
-    srand((unsigned) time(0));
 
     while (!won && guesses.size() < GUESSES) {
         if (rotate)
