@@ -1,7 +1,9 @@
 CXX=c++
 CXXFLAGS=-O2
+#CXXOPTS=-D DEBUG
 
 DICT=/usr/share/dict
+PREFIX=/usr/local
 
 SOURCES=src
 ASSETS=assets
@@ -9,7 +11,7 @@ ASSETS=assets
 .PHONY: install uninstall
 
 wordle: $(SOURCES)/main.cpp $(DICT)/words.sorted
-	$(CXX) $(CXXFLAGS) -o wordle $(SOURCES)/main.cpp
+	$(CXX) $(CXXFLAGS) $(CXXOPTS) -o wordle $(SOURCES)/main.cpp
 	strip wordle
 
 $(DICT)/words.sorted: $(ASSETS)/words.sorted
@@ -17,8 +19,7 @@ $(DICT)/words.sorted: $(ASSETS)/words.sorted
 	cp $(ASSETS)/words.sorted $(DICT)/words.sorted
 
 install: wordle
-	mv wordle /usr/bin
+	cp wordle $(PREFIX)/bin/wordle
 
-uninstall: /usr/bin/wordle
-	rm -f /usr/bin/wordle
-	rm -f $(DICT)/words.sorted
+uninstall: $(PREFIX)/bin/wordle
+	rm -f $(PREFIX)/bin/wordle $(DICT)/words.sorted

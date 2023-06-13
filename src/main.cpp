@@ -22,7 +22,13 @@ int random(int max) {
 
 bool put_words_in(vector<string> &list) {
     std::ifstream words;
+
+#ifdef DEBUG
+    words.open("assets/words.sorted");
+#else
     words.open("/usr/share/dict/words.sorted");
+#endif
+
     string buf;
 
     if (!words.is_open()) {
